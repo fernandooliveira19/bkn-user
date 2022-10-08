@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: bkn-user
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bkn-user
+    username: postgres
+    password: PGFamo2369
+
+server:
+  port: ${PORT:0}
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://bkn-eureka-server:8761/eureka

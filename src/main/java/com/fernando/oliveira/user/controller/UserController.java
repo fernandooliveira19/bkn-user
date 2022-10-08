@@ -1,37 +1,44 @@
 package com.fernando.oliveira.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.fernando.oliveira.user.entity.User;
+import com.fernando.oliveira.user.domain.request.CreateUserRequest;
+import com.fernando.oliveira.user.domain.response.UserDetailResponse;
+import com.fernando.oliveira.user.domain.response.UserRoleResponse;
 import com.fernando.oliveira.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
 	
 	@Autowired
-	private UserService service;
+	private UserService userService;
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id){
+	public ResponseEntity<UserDetailResponse> findById(@PathVariable UUID id){
 		
-		User user = service.findById(id);
-		
-		return ResponseEntity.ok(user);
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(userService.findById(id));
 	}
 	
-	@GetMapping(value="/search")
-	public ResponseEntity<User> findByEmail(@RequestParam String email){
-		
-		User user = service.findByEmail(email);
-		
-		return ResponseEntity.ok(user);
+	@GetMapping(value="/loadUserByUsername")
+	@ResponseStatus(HttpStatus.OK)
+	public UserRoleResponse loadUserByUsername(@RequestParam String username){
+		return userService.loadUserByUsername(username);
+
+	}
+
+	@PostMapping
+	public ResponseEntity create(@RequestBody CreateUserRequest request){
+
+		return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.build();
 	}
 	
 }

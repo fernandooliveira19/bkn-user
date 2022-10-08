@@ -1,17 +1,17 @@
 package com.fernando.oliveira.user.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.fernando.oliveira.user.entity.User;
+import com.fernando.oliveira.user.domain.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 	
-	public Optional<User> findById(Long id);
 
-	public Optional<User> findByEmail(String email);
+	Optional<User> findByEmail(String email);
 
 }

@@ -1,25 +1,18 @@
 package com.fernando.oliveira.user.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.fernando.oliveira.user.domain.request.CreateUserRequest;
+import com.fernando.oliveira.user.domain.response.UserDetailResponse;
+import com.fernando.oliveira.user.domain.response.UserRoleResponse;
 
-import com.fernando.oliveira.user.entity.User;
-import com.fernando.oliveira.user.repository.UserRepository;
+import java.util.UUID;
 
-@Service
-public class UserService {
 
-	@Autowired
-	UserRepository repository;
-	
-	public User findById(Long id) {
-		
-		return repository.findById(id).orElseThrow();
-	}
+public interface UserService {
 
-	public User findByEmail(String email) {
-		
-		return repository.findByEmail(email).orElseThrow();
-	}
 
+	UserDetailResponse findById(UUID id);
+
+	UserRoleResponse loadUserByUsername(String username);
+
+	UserDetailResponse create(CreateUserRequest request);
 }
