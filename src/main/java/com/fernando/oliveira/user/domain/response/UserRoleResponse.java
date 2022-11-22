@@ -11,5 +11,6 @@ import java.util.List;
 public class UserRoleResponse implements Serializable {
     private String name;
     private String email;
+    private String password;
     private List<RoleResponse> roles;
 }
