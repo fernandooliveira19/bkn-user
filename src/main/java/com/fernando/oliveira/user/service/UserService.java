@@ -1,8 +1,6 @@
 package com.fernando.oliveira.user.service;
 
-import com.fernando.oliveira.user.domain.request.CreateUserRequest;
-import com.fernando.oliveira.user.domain.response.UserDetailResponse;
-import com.fernando.oliveira.user.domain.response.UserRoleResponse;
+import com.fernando.oliveira.user.domain.entity.User;
 
 import java.util.UUID;
 
@@ -10,9 +8,9 @@ import java.util.UUID;
 public interface UserService {
 
 
-	UserDetailResponse findById(UUID id);
+	User findById(UUID id);
 
-	UserRoleResponse loadUserByUsername(String username);
+	User loadUserByUsername(String username);
 
-	UserDetailResponse create(CreateUserRequest request);
+	User create(User user);
 }

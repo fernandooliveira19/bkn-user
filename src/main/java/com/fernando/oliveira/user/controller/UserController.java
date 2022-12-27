@@ -1,5 +1,7 @@
 package com.fernando.oliveira.user.controller;
 
+import com.fernando.oliveira.user.domain.entity.User;
+import com.fernando.oliveira.user.domain.mapper.UserMapper;
 import com.fernando.oliveira.user.domain.request.CreateUserRequest;
 import com.fernando.oliveira.user.domain.response.UserDetailResponse;
 import com.fernando.oliveira.user.domain.response.UserRoleResponse;
@@ -17,28 +19,36 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserMapper userMapper;
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<UserDetailResponse> findById(@PathVariable UUID id){
-		
+
+		UserDetailResponse response = userMapper.entityToResponse(userService.findById(id));
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(userService.findById(id));
+				.body(response);
 	}
 	
 	@GetMapping(value="/loadUserByUsername")
 	@ResponseStatus(HttpStatus.OK)
 	public UserRoleResponse loadUserByUsername(@RequestParam String username){
-		return userService.loadUserByUsername(username);
+		return userMapper.entityToUserRoleResponse(userService.loadUserByUsername(username));
+
 
 	}
 
 	@PostMapping
-	public ResponseEntity create(@RequestBody CreateUserRequest request){
+	public ResponseEntity<UserDetailResponse> create(@RequestBody CreateUserRequest request){
+		User userToCreate = userMapper.createUserRequestToEntity(request);
+
+		UserDetailResponse response = userMapper.entityToResponse(userService.create(userToCreate));
 
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
-				.build();
+				.body(response);
 	}
 	
 }
